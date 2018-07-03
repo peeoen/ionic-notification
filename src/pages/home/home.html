@@ -7,8 +7,16 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+  <ion-refresher (ionRefresh)="foeceReload($event)">
+    <ion-refresher-content refreshingText="Reload from API..."></ion-refresher-content>
+  </ion-refresher>
+<button ion-button full (click)="loadFilms()">Load Films</button>
+<button ion-button full color="danger" (click)="invalidCache()">Invalid Cache</button>
+
+<ion-list>
+  <ion-item *ngFor="let film of films | async">
+    {{ film.title }}
+  </ion-item>
+</ion-list>
 </ion-content>

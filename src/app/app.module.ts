@@ -1,12 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { BrowserModule } from '@angular/platform-browser';
+import { Push } from '@ionic-native/push';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
-import { MyApp } from './app.component';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { CacheModule } from 'ionic-cache';
 import { HomePage } from '../pages/home/home';
-
+import { MyApp } from './app.component';
 @NgModule({
   declarations: [
     MyApp,
@@ -14,6 +15,8 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    CacheModule.forRoot(),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -24,6 +27,7 @@ import { HomePage } from '../pages/home/home';
   providers: [
     StatusBar,
     SplashScreen,
+    Push,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

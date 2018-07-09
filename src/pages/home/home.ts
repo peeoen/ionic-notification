@@ -1,61 +1,40 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { CacheService } from 'ionic-cache';
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
+import { HttpService } from '../../services/http.service';
+
+const ttl: number = 60;
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  films: Observable<any>;
-  filmsKey = 'my-films-group';
-
+  data: Observable<any[]>;
+  dataKey: string = 'data';
+  url: string;
   constructor(public navCtrl: NavController,
-    private http: HttpClient,
     private cache: CacheService,
-    private toastCtrl: ToastController) {
-      this.cache.clearExpired();
+    private httpService: HttpService) {
+    this.cache.setDefaultTTL(ttl);
+    this.url = this.httpService.url;
+    this.loadData();
   }
 
-  loadFilms(refresher?) {
-    let url = 'https://jsonplaceholder.typicode.com/posts';
-    let req = this.http.get(url).pipe(
-      map((res: any) => {
-        console.log(res);
-        
-        let toast = this.toastCtrl.create({
-          message: 'new data from API loaded',
-          duration: 2000
-        });
-        toast.present();
-        return res;
-      })
-    )
-    let ttl = 5;
-    setTimeout(() => {
-      this.cache.clearExpired();
-    }, 6000);
-
-    if (refresher) {
-      let deleyType = 'all';
-      this.films = this.cache.loadFromDelayedObservable(url, req, this.filmsKey, ttl, deleyType);
-      this.films.subscribe(data => {
-        refresher.complete();
-      })
-    }
-    else {
-      this.films = this.cache.loadFromObservable(url, req, this.filmsKey, ttl);
-    }
+  async loadData() {
+    this.cache.clearExpired()
+    this.httpService.getData().subscribe(res => console.log(res));
+    const res = await this.httpService.getData();
+    const delayType = 'all';  // this indicates that it should send a new request to the server every time, you can also set it to 'none' which indicates that it should only send a new request when it's expired
+    this.data = this.cache.loadFromDelayedObservable<any[]>(this.dataKey, res, 'group_data', ttl, delayType);
+    this.data.subscribe(res => console.log(res));
   }
 
-  invalidCache() {
-    this.cache.clearGroup(this.filmsKey);
+  async getCache() {
+    const data = await this.cache.getItem(this.dataKey);
+    const data1 = await this.cache.getRawItem(this.dataKey);
+    console.log(data);
+    console.log(data1);
   }
-
-  foeceReload(refresher) {
-    this.loadFilms(refresher);
-  }
-
 }

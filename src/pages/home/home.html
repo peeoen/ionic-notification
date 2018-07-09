@@ -8,15 +8,26 @@
 
 <ion-content padding>
 
-  <ion-refresher (ionRefresh)="foeceReload($event)">
+  <!-- <ion-refresher (ionRefresh)="foeceReload($event)">
     <ion-refresher-content refreshingText="Reload from API..."></ion-refresher-content>
-  </ion-refresher>
-<button ion-button full (click)="loadFilms()">Load Films</button>
-<button ion-button full color="danger" (click)="invalidCache()">Invalid Cache</button>
+  </ion-refresher> -->
 
-<ion-list>
-  <ion-item *ngFor="let film of films | async">
-    {{ film.title }}
+  <button ion-button full (click)="loadData()">Load Data</button>
+  <button ion-button full  color="dark" (click)="getCache()">Get Cache</button>
+<!-- <ion-list>
+  <ion-item *ngFor="let d of (data | async)">
+    {{ d }}
+  </ion-item>
+
+  
+</ion-list> -->
+
+<ion-list *ngFor="let d of (data | async)">
+  <ion-item>
+    <ion-avatar item-start>
+      <img [src]='url + d.image'>
+    </ion-avatar>
+    <h2>{{d.title}}</h2>
   </ion-item>
 </ion-list>
 </ion-content>

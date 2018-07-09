@@ -2,16 +2,21 @@ import { Component } from '@angular/core';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { Platform } from 'ionic-angular';
+import { AlertController, Platform } from 'ionic-angular';
 import { CacheService } from 'ionic-cache';
 import { HomePage } from '../pages/home/home';
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage: any = HomePage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private push: Push, private cache: CacheService) {
+  constructor(platform: Platform, statusBar: StatusBar, 
+    splashScreen: SplashScreen, 
+    private push: Push, 
+    private cache: CacheService,
+    private alertCtrl: AlertController) {
     platform.ready().then(() => {
       cache.setDefaultTTL(60 * 60 * 12);
       cache.setOfflineInvalidate(false);
@@ -31,17 +36,49 @@ export class MyApp {
         alert: 'true',
         badge: true,
         sound: 'false'
-      }
+      },
     };
 
     const pushObject: PushObject = this.push.init(options);
 
+    pushObject.on('notification').subscribe((notification: any) => {
+      console.log('noti');
+      console.log('Received a notification', notification);
+      this.presentConfirm();
 
-    pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+      setTimeout(() => {
+        console.log('noti');
+      }, 1000);
+    });
 
     pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
 
     pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
   }
+
+
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm purchase',
+      message: 'Do you want to buy this book?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Buy',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  
 }
 

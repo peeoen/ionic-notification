@@ -21,6 +21,7 @@
     "@angular/http": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
+    "@chrisben/imgcache.js": "^2.1.0",
     "@ionic-native/core": "4.8.0",
     "@ionic-native/file": "^4.9.1",
     "@ionic-native/file-transfer": "^4.9.1",

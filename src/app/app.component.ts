@@ -3,7 +3,6 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AlertController, Platform } from 'ionic-angular';
-import { ImageLoaderConfig } from 'ionic-image-loader';
 import { HomePage } from '../pages/home/home';
 
 @Component({
@@ -15,8 +14,6 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, 
     splashScreen: SplashScreen, 
     private push: Push, 
-    private imageLoaderConfig: ImageLoaderConfig,
-    // private imgCacheService: ImgCacheService,
     private alertCtrl: AlertController) {
     platform.ready().then(() => {
       statusBar.styleDefault();
@@ -27,8 +24,8 @@ export class MyApp {
   }
 
   imageLoaderConfigSetup() {
-    this.imageLoaderConfig.setMaximumCacheSize(20 * 1024 * 1024);
-    this.imageLoaderConfig.setMaximumCacheAge(24 * 60 * 60 * 1000);
+    // this.imageLoaderConfig.setMaximumCacheSize(20 * 1024 * 1024);
+    // this.imageLoaderConfig.setMaximumCacheAge(24 * 60 * 60 * 1000);
   }
 
   imgCacheServiceSetup() {

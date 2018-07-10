@@ -3,7 +3,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AlertController, Platform } from 'ionic-angular';
-import { CacheService } from 'ionic-cache';
+import { ImgCacheService } from 'ng-imgcache';
 import { HomePage } from '../pages/home/home';
 
 @Component({
@@ -15,16 +15,20 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, 
     splashScreen: SplashScreen, 
     private push: Push, 
-    private cache: CacheService,
+    private imgCacheService: ImgCacheService,
     private alertCtrl: AlertController) {
     platform.ready().then(() => {
-      cache.setDefaultTTL(60 * 60 * 12);
-      cache.setOfflineInvalidate(false);
-
       statusBar.styleDefault();
       splashScreen.hide();
       this.pushSetup();
+      this.imagesSetup();
     });
+  }
+
+  imagesSetup() {
+      this.imgCacheService.init({
+         
+      });
   }
 
   pushSetup() {
@@ -60,22 +64,7 @@ export class MyApp {
   presentConfirm() {
     let alert = this.alertCtrl.create({
       title: 'Confirm purchase',
-      message: 'Do you want to buy this book?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Buy',
-          handler: () => {
-            console.log('Buy clicked');
-          }
-        }
-      ]
+      message: 'Do you want to buy this book?'
     });
     alert.present();
   }

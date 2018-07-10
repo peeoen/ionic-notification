@@ -6,9 +6,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { CacheModule } from 'ionic-cache';
+import { ImgCacheModule } from 'ng-imgcache';
 import { HomePage } from '../pages/home/home';
 import { HttpService } from '../services/http.service';
 import { MyApp } from './app.component';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -17,6 +19,7 @@ import { MyApp } from './app.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    ImgCacheModule,
     CacheModule.forRoot(),
     IonicModule.forRoot(MyApp)
   ],

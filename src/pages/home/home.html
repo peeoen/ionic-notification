@@ -17,21 +17,20 @@
       <ion-avatar item-start>
         <!-- <img [src]='url + d.image'> -->
         <!-- <img img-cache [img-cache-src]='url + d.image' /> -->
-        <img *ngIf="url && d.image" img-cache [img-cache-src]='url + d.image'>
-        <div *ngIf="url && d.image" img-cache [img-cache-bg-url]='url + d.image'></div>
+        <!-- <img *ngIf="url && d.image" img-cache [img-cache-src]='url + d.image'>
+        <div *ngIf="url && d.image" img-cache [img-cache-bg-url]='url + d.image'></div> -->
+        <img-loader [src]='url + d.image' useImg></img-loader>
       </ion-avatar>
       <h2>{{d.title}}</h2>
     </ion-item>
   </ion-list>
 
-  <ion-list *ngFor="let d of (data | async)">
+  <!-- <ion-list *ngFor="let d of (data | async)">
     <ion-item>
       <ion-avatar item-start>
-        <!-- <img [src]='url + d.image'> -->
-        <!-- <img img-cache [img-cache-src]='url + d.image' /> -->
         <img [src]='url + d.image'>
       </ion-avatar>
       <h2>{{d.title}}</h2>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 </ion-content>

@@ -3,7 +3,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AlertController, Platform } from 'ionic-angular';
-import { ImgCacheService } from 'ng-imgcache';
+import { ImageLoaderConfig } from 'ionic-image-loader';
 import { HomePage } from '../pages/home/home';
 
 @Component({
@@ -15,21 +15,26 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, 
     splashScreen: SplashScreen, 
     private push: Push, 
-    private imgCacheService: ImgCacheService,
+    private imageLoaderConfig: ImageLoaderConfig,
+    // private imgCacheService: ImgCacheService,
     private alertCtrl: AlertController) {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
       this.pushSetup();
-      this.imagesSetup();
+      this.imageLoaderConfigSetup();
     });
   }
 
-  imagesSetup() {
+  imageLoaderConfigSetup() {
+    this.imageLoaderConfig.setMaximumCacheSize(20 * 1024 * 1024);
+    this.imageLoaderConfig.setMaximumCacheAge(24 * 60 * 60 * 1000);
+  }
 
-      this.imgCacheService.init({
-         timeout: 24 * 60 * 60 * 1000,
-      });
+  imgCacheServiceSetup() {
+      // this.imgCacheService.init({
+      //    timeout: 24 * 60 * 60 * 1000,
+      // });
       // this.imgCacheService.clearCache();
   }
 

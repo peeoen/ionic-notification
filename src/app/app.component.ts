@@ -26,9 +26,11 @@ export class MyApp {
   }
 
   imagesSetup() {
+
       this.imgCacheService.init({
-         
+         timeout: 24 * 60 * 60 * 1000,
       });
+      // this.imgCacheService.clearCache();
   }
 
   pushSetup() {
